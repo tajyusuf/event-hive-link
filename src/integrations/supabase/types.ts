@@ -14,7 +14,280 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          audience_size: number | null
+          created_at: string
+          demographics: Json | null
+          description: string
+          event_date: string
+          id: string
+          location: string
+          name: string
+          organizer_id: string
+          pitch_deck_url: string | null
+          social_reach: Json | null
+          status: string | null
+          themes: string[] | null
+          updated_at: string
+          view_count: number | null
+        }
+        Insert: {
+          audience_size?: number | null
+          created_at?: string
+          demographics?: Json | null
+          description: string
+          event_date: string
+          id?: string
+          location: string
+          name: string
+          organizer_id: string
+          pitch_deck_url?: string | null
+          social_reach?: Json | null
+          status?: string | null
+          themes?: string[] | null
+          updated_at?: string
+          view_count?: number | null
+        }
+        Update: {
+          audience_size?: number | null
+          created_at?: string
+          demographics?: Json | null
+          description?: string
+          event_date?: string
+          id?: string
+          location?: string
+          name?: string
+          organizer_id?: string
+          pitch_deck_url?: string | null
+          social_reach?: Json | null
+          status?: string | null
+          themes?: string[] | null
+          updated_at?: string
+          view_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_organizer_id_fkey"
+            columns: ["organizer_id"]
+            isOneToOne: false
+            referencedRelation: "organizer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          event_id: string | null
+          id: string
+          read_at: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          read_at?: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          read_at?: string | null
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizer_profiles: {
+        Row: {
+          club_name: string
+          college: string
+          created_at: string
+          description: string | null
+          id: string
+          profile_id: string
+          social_links: Json | null
+          updated_at: string
+        }
+        Insert: {
+          club_name: string
+          college: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          profile_id: string
+          social_links?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          club_name?: string
+          college?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          profile_id?: string
+          social_links?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizer_profiles_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sponsor_interests: {
+        Row: {
+          created_at: string
+          event_id: string
+          id: string
+          sponsor_id: string
+          status: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          id?: string
+          sponsor_id: string
+          status?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          id?: string
+          sponsor_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_interests_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_interests_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "sponsor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_profiles: {
+        Row: {
+          budget_range: string | null
+          company_name: string
+          created_at: string
+          id: string
+          industry: string
+          marketing_goals: string[] | null
+          profile_id: string
+          target_audience: string[] | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          budget_range?: string | null
+          company_name: string
+          created_at?: string
+          id?: string
+          industry: string
+          marketing_goals?: string[] | null
+          profile_id: string
+          target_audience?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          budget_range?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          industry?: string
+          marketing_goals?: string[] | null
+          profile_id?: string
+          target_audience?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_profiles_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +296,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "organizer" | "sponsor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +423,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["organizer", "sponsor"],
+    },
   },
 } as const
