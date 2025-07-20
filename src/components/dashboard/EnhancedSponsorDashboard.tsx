@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import AccountMenu from '@/components/profile/AccountMenu';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -231,13 +232,16 @@ const SponsorDashboard = () => {
   return (
     <div className="container mx-auto p-6 max-w-7xl">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          Sponsor Dashboard
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Discover events perfect for {profile?.company_name || 'your company'}
-        </p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            Sponsor Dashboard
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Discover events perfect for {profile?.company_name || 'your company'}
+          </p>
+        </div>
+        <AccountMenu />
       </div>
 
       {/* Stats Cards */}
