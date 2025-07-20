@@ -30,9 +30,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+        
+        // Handle profile creation for OAuth users
+        if (event === 'SIGNED_IN' && session?.user) {
+          setTimeout(async () => {
+            try {
+              // Check if profile exists
+              const { data: existingProfile } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('user_id', session.user.id)
+                .single();
+
+              // If no profile exists, create one
+              if (!existingProfile) {
+                const { error: profileError } = await supabase
+                  .from('profiles')
+                  .insert({
+                    user_id: session.user.id,
+                    email: session.user.email || '',
+                    full_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || '',
+                    role: 'organizer' // Default role, user can change later
+                  });
+
+                if (profileError) {
+                  console.error('Error creating profile:', profileError);
+                }
+              }
+            } catch (error) {
+              console.error('Error handling profile:', error);
+            }
+          }, 0);
+        }
+        
         setLoading(false);
       }
     );
