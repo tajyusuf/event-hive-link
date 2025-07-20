@@ -8,9 +8,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Users, Building, Loader2 } from 'lucide-react';
+import ProfileSetup from '@/components/profile/ProfileSetup';
 
 const RoleSelection = () => {
   const [role, setRole] = useState<'organizer' | 'sponsor'>('organizer');
+  const [step, setStep] = useState<'role' | 'profile'>('role');
   const [loading, setLoading] = useState(false);
   const { user, session } = useAuth();
   const navigate = useNavigate();
@@ -43,35 +45,26 @@ const RoleSelection = () => {
     checkProfile();
   }, [user, session, navigate]);
 
-  const handleRoleSelection = async () => {
-    if (!user) return;
-
-    setLoading(true);
-    try {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          user_id: user.id,
-          email: user.email || '',
-          full_name: user.user_metadata?.full_name || user.user_metadata?.name || '',
-          role
-        });
-
-      if (profileError) {
-        toast.error('Failed to create profile');
-        console.error('Error creating profile:', profileError);
-        return;
-      }
-
-      toast.success('Profile created successfully!');
-      navigate('/dashboard');
-    } catch (error) {
-      toast.error('An unexpected error occurred');
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleRoleSelection = () => {
+    setStep('profile');
   };
+
+  if (step === 'profile') {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/10"></div>
+        
+        <div className="relative z-10 w-full max-w-4xl">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-white mb-2">EventEye</h1>
+            <p className="text-white/80">Complete your profile setup</p>
+          </div>
+          
+          <ProfileSetup role={role} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
@@ -133,8 +126,7 @@ const RoleSelection = () => {
                 className="w-full"
                 disabled={loading}
               >
-                {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                Complete Setup
+                Continue to Profile Setup
               </Button>
             </div>
           </CardContent>
