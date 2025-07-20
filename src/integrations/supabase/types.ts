@@ -293,7 +293,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_view_count: {
+        Args: { event_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       user_role: "organizer" | "sponsor"

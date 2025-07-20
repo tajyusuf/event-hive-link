@@ -3,8 +3,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Navigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { OrganizerDashboard } from '@/components/dashboard/OrganizerDashboard';
-import { SponsorDashboard } from '@/components/dashboard/SponsorDashboard';
+import EnhancedOrganizerDashboard from '@/components/dashboard/EnhancedOrganizerDashboard';
+import EnhancedSponsorDashboard from '@/components/dashboard/EnhancedSponsorDashboard';
 
 const Dashboard = () => {
   const { user, loading: authLoading } = useAuth();
@@ -63,9 +63,9 @@ const Dashboard = () => {
   return (
     <>
       {userProfile.role === 'organizer' ? (
-        <OrganizerDashboard profile={userProfile} />
+        <EnhancedOrganizerDashboard />
       ) : (
-        <SponsorDashboard profile={userProfile} />
+        <EnhancedSponsorDashboard />
       )}
     </>
   );
