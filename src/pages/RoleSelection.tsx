@@ -33,9 +33,9 @@ const RoleSelection = () => {
           .eq('user_id', user.id)
           .single();
 
-        // If profile exists, redirect to dashboard
+        // If profile exists, redirect to explore page
         if (existingProfile) {
-          navigate('/dashboard');
+          navigate('/explore');
         }
       } catch (error) {
         console.error('Error checking profile:', error);

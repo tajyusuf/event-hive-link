@@ -23,8 +23,8 @@ const Auth = () => {
             .single();
 
           if (profile) {
-            // User has profile, redirect to dashboard
-            navigate('/dashboard');
+            // User has profile, redirect to explore page
+            navigate('/explore');
           } else {
             // User doesn't have profile, redirect to role selection
             navigate('/role-selection');

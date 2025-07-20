@@ -107,7 +107,7 @@ const ProfileSetup: React.FC<ProfileSetupProps> = ({ role }) => {
       }
 
       toast.success('Profile created successfully!');
-      navigate('/dashboard');
+      navigate('/explore');
     } catch (error: any) {
       toast.error(error.message || 'Failed to create profile');
       console.error('Error creating profile:', error);
